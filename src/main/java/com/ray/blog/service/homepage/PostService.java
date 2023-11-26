@@ -1,5 +1,6 @@
 package com.ray.blog.service.homepage;
 
+import com.ray.blog.dto.homepage.PostCreateRequest;
 import com.ray.blog.model.Post;
 import com.ray.blog.repository.PostRepository;
 
@@ -20,7 +21,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PostService {
   private final PostRepository postRepository;
+
+  //todo: we should join 'media' & 'posts' as well as the 'comments' table and return the combined data
   public List<Post> getAllPosts() {
     return postRepository.findAll();
+  }
+
+  public Post createPost(PostCreateRequest postCreateRequest) {
+    return null;
   }
 }
