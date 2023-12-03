@@ -15,6 +15,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
@@ -52,6 +53,11 @@ public class Post {
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
   private List<Media> media;
+
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "user_id", referencedColumnName = "id")
+  @JsonIgnore
+  private User user;
 
   @PrePersist
   protected void onCreate() {

@@ -2,7 +2,9 @@ package com.ray.blog.service.homepage;
 
 import com.ray.blog.dto.homepage.PostCreateRequest;
 import com.ray.blog.model.Post;
+import com.ray.blog.model.User;
 import com.ray.blog.repository.PostRepository;
+import com.ray.blog.repository.UserRepository;
 
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
@@ -23,8 +25,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PostService {
   private final PostRepository postRepository;
+  private final UserRepository userRepository;
 
-  //todo: we should join 'media' & 'posts' as well as the 'comments' table and return the combined data
+
+  //todo:
+  // We should convert posts to dto since there is some irrelevant fields not necessary for the response
   public List<Post> getAllPosts() {
     // Fetch all posts
     List<Post> posts = postRepository.findAll();
@@ -33,13 +38,29 @@ public class PostService {
     posts.forEach(
             post -> {
               Hibernate.initialize(post.getMedia());
+              Hibernate.initialize(post.getUser());
             }
     );
 
     return posts;
   }
+  public List<User> getAllUsers() {
+    List<User> users = userRepository.findAll();
+
+    // Initialize media collections within the transactional context
+    users.forEach(
+            user -> {
+              Hibernate.initialize(user.getPost());
+
+            }
+    );
+
+    return users;
+  }
 
   public Post createPost(PostCreateRequest postCreateRequest) {
     return null;
   }
+
+
 }

@@ -2,6 +2,7 @@ package com.ray.blog.controller.homepage;
 
 import com.ray.blog.dto.homepage.PostCreateRequest;
 import com.ray.blog.model.Post;
+import com.ray.blog.model.User;
 import com.ray.blog.service.homepage.PostService;
 
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,14 @@ public class HomeController {
       return ResponseEntity.noContent().build();
     }
     return ResponseEntity.ok(posts);
+  }
+  @GetMapping("/users")
+  public ResponseEntity<List<User>> getAllUsers(){
+    List<User> users =  postService.getAllUsers();
+    if(users.isEmpty()){
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(users);
   }
   @PostMapping("/posts")
   public ResponseEntity<Post> createPost(@RequestBody PostCreateRequest postCreateRequest){
