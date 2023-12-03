@@ -29,10 +29,7 @@ public class PostService {
   private final UserRepository userRepository;
 
 
-  //TODO:
-  // 1. We should convert posts to dto since there is some irrelevant fields not necessary for the response
-  // 2. And also, post should be linked to comments, a user can have many comment, one post can have many comments
-  // create Comment pojo, repository & convert post to dto in the end;
+  // Fetch all posts in the homepage
   public List<PostResponse> getAllPosts() {
     // Fetch all posts
     List<Post> posts = postRepository.findAll();
