@@ -1,5 +1,8 @@
 package com.ray.blog.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -15,6 +18,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * Created with IntelliJ IDEA.
@@ -34,8 +38,7 @@ public class Media {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Column(name = "post_id", nullable = false)
-  private Integer postId;
+
 
   @Column(name = "media_url",nullable = false, length = 255)
   private String mediaUrl;
@@ -44,9 +47,8 @@ public class Media {
   @Column(name = "media_type",nullable = false)
   private MediaType mediaType;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "post_id", insertable = false, updatable = false)
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "post_id", referencedColumnName = "id")
+  @JsonIgnore
   private Post post;
-
-
 }

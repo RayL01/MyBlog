@@ -1,6 +1,9 @@
 package com.ray.blog.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 
@@ -11,6 +14,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
@@ -32,8 +36,7 @@ public class Post {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Column(name = "user_id", nullable = false)
-  private Integer userId;
+
 
   @Column(nullable = false, length = 255)
   private String title;
@@ -47,8 +50,8 @@ public class Post {
   @Column(name = "updated_at", nullable = false)
   private LocalDateTime updatedAt;
 
-  @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  private Set<Media> media;
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+  private List<Media> media;
 
   @PrePersist
   protected void onCreate() {

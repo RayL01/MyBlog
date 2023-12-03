@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.NoArgsConstructor;
@@ -29,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/homepage")
 public class HomeController {
   private final PostService postService;
+
 
   @GetMapping("/posts")
   public ResponseEntity<List<Post>> getAllPosts(){

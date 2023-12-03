@@ -4,7 +4,9 @@ import com.ray.blog.dto.homepage.PostCreateRequest;
 import com.ray.blog.model.Post;
 import com.ray.blog.repository.PostRepository;
 
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,7 +26,17 @@ public class PostService {
 
   //todo: we should join 'media' & 'posts' as well as the 'comments' table and return the combined data
   public List<Post> getAllPosts() {
-    return postRepository.findAll();
+    // Fetch all posts
+    List<Post> posts = postRepository.findAll();
+
+    // Initialize media collections within the transactional context
+    posts.forEach(
+            post -> {
+              Hibernate.initialize(post.getMedia());
+            }
+    );
+
+    return posts;
   }
 
   public Post createPost(PostCreateRequest postCreateRequest) {
