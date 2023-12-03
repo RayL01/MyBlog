@@ -36,11 +36,11 @@ public class PostService {
     // Fetch all posts
     List<Post> posts = postRepository.findAll();
 
-    // Initialize media collections within the transactional context
     posts.forEach(
             post -> {
               Hibernate.initialize(post.getMedia());
               Hibernate.initialize(post.getUser());
+              Hibernate.initialize(post.getComment());
             }
     );
 

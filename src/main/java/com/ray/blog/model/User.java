@@ -65,6 +65,11 @@ public class User implements UserDetails {
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
   private List<Post> post;
 
+  //mappedBy = "user" means that the 'user' field in 'Comment' class is mapped to this field
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+  private List<Comment> comment;
+
+
   /**
    * automatically update the time when inserting new entity into db
    */

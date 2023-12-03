@@ -51,8 +51,16 @@ public class Post {
   @Column(name = "updated_at", nullable = false)
   private LocalDateTime updatedAt;
 
+
+  //mappedBy = "post" means that the 'post' field in 'Media' class is mapped to this field
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
   private List<Media> media;
+
+  //mappedBy = "post" means that the 'post' field in 'Comment' class is mapped to this field
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+  private List<Comment> comment;
+
+
 
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "user_id", referencedColumnName = "id")
