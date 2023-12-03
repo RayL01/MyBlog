@@ -1,6 +1,7 @@
 package com.ray.blog.service.homepage;
 
 import com.ray.blog.dto.homepage.PostCreateRequest;
+import com.ray.blog.dto.homepage.PostResponse;
 import com.ray.blog.model.Post;
 import com.ray.blog.model.User;
 import com.ray.blog.repository.PostRepository;
@@ -8,8 +9,8 @@ import com.ray.blog.repository.UserRepository;
 
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
@@ -32,19 +33,33 @@ public class PostService {
   // 1. We should convert posts to dto since there is some irrelevant fields not necessary for the response
   // 2. And also, post should be linked to comments, a user can have many comment, one post can have many comments
   // create Comment pojo, repository & convert post to dto in the end;
-  public List<Post> getAllPosts() {
+  public List<PostResponse> getAllPosts() {
     // Fetch all posts
     List<Post> posts = postRepository.findAll();
+    List<PostResponse> postResponses = new ArrayList<>();
 
     posts.forEach(
             post -> {
               Hibernate.initialize(post.getMedia());
               Hibernate.initialize(post.getUser());
               Hibernate.initialize(post.getComment());
+              postResponses.add(
+                      PostResponse.builder()
+                              .id(post.getId())
+                              .title(post.getTitle())
+                              .content(post.getContent())
+                              .createdAt(post.getCreatedAt())
+                              .updatedAt(post.getUpdatedAt())
+                              .authorId(post.getUser().getId())
+                              .authorUsername(post.getUser().getUsername())
+                              .authorEmail(post.getUser().getEmail())
+                              .media(post.getMedia())
+                              .comments(post.getComment())
+                              .build()
+              );
             }
     );
-
-    return posts;
+    return postResponses;
   }
   public List<User> getAllUsers() {
     List<User> users = userRepository.findAll();

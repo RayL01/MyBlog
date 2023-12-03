@@ -1,6 +1,7 @@
 package com.ray.blog.controller.homepage;
 
 import com.ray.blog.dto.homepage.PostCreateRequest;
+import com.ray.blog.dto.homepage.PostResponse;
 import com.ray.blog.model.Post;
 import com.ray.blog.model.User;
 import com.ray.blog.service.homepage.PostService;
@@ -13,10 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -34,12 +33,12 @@ public class HomeController {
 
 
   @GetMapping("/posts")
-  public ResponseEntity<List<Post>> getAllPosts(){
-    List<Post> posts =  postService.getAllPosts();
-    if(posts.isEmpty()){
+  public ResponseEntity<List<PostResponse>> getAllPosts(){
+    List<PostResponse> postResponses = postService.getAllPosts();
+    if(postResponses.isEmpty()){
       return ResponseEntity.noContent().build();
     }
-    return ResponseEntity.ok(posts);
+    return ResponseEntity.ok(postResponses);
   }
   @GetMapping("/users")
   public ResponseEntity<List<User>> getAllUsers(){
